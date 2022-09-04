@@ -98,6 +98,7 @@ class Helper
     }
 
     /**
+     * String append word & words.
      * @param $value
      * @param ...$values
      * @return string
