@@ -128,6 +128,7 @@ class Helper
         } else {
             $ip = $remote;
         }
+
         return $ip;
     }
 }
