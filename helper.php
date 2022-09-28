@@ -27,7 +27,7 @@ class Helper
 
     /**
      * Random code builder.
-     * @param $length
+     * @param int $length
      * @return string
      * @throws Exception
      */
@@ -48,8 +48,8 @@ class Helper
 
     /**
      * Return the length of the given string.
-     * @param $value
-     * @param $encoding
+     * @param string $value
+     * @param string|null $encoding
      * @return false|int
      */
     public static function length(string $value, string $encoding = null): string
@@ -63,9 +63,9 @@ class Helper
 
     /**
      * Limit the number of characters in a string.
-     * @param $value
-     * @param $limit
-     * @param $end
+     * @param string $value
+     * @param int $limit
+     * @param string $end
      * @return mixed|string
      */
     public static function limit(string $value, int $limit = 100, string $end = '...'): string
@@ -106,5 +106,28 @@ class Helper
     public static function append($value, ...$values): string
     {
         return $value . implode('', $values);
+    }
+
+    /**
+     * Get client IP information.
+     * @return mixed
+     */
+    public static function getIpAddress()
+    {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        }
+        $client = @$_SERVER['HTTP_CLIENT_IP'];
+        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote = @$_SERVER['REMOTE_ADDR'];
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
+            $ip = $client;
+        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+            $ip = $forward;
+        } else {
+            $ip = $remote;
+        }
+        return $ip;
     }
 }
