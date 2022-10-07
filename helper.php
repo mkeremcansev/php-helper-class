@@ -22,7 +22,7 @@ class Helper
         $string = str_replace('ı', 'i', $string);
         $string = str_replace('İ', 'I', $string);
 
-        return preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
+        return self::lower(preg_replace('/[^A-Za-z0-9-]+/', '-', $string));
     }
 
     /**
